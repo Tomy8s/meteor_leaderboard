@@ -1,0 +1,7 @@
+body{
+  cursor: default;
+}
+
+.selected{
+  background-color: yellow;
+}

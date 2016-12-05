@@ -5,14 +5,28 @@ if(Meteor.isClient){
   Template.leaderboard.helpers({
     'player': function(){
       return PlayersList.find();
+    },
+    'selectedClass': function(){
+      var playerId = this._id;
+      var selectedPlayer = Session.get('selectedPlayer');
+      if(playerId === selectedPlayer){
+       return 'selected';
+      }
     }
   })
   Template.leaderboard.events({
       'click .player' : function(){
-          console.log('Click' );
-          Session.set('selectedPlayer', 'Session Value test');
-          var selectedPlayer = Session.get('selectedPlayer');
-          console.log(selectedPlayer);
+        var playerId = this._id;
+          console.log(playerId);
+          Session.set('selectedPlayer', playerId);
+      },
+      'click .increment': function(){
+        var selectedPlayer = Session.get('selectedPlayer');
+        PlayersList.update({ _id: selectedPlayer }, { $inc: { score: 5 }});
+      },
+      'click .decrement': function(){
+        var selectedPlayer = Session.get('selectedPlayer');
+        PlayersList.update({ _id: selectedPlayer }, { $inc: { score: -5 }});
       }
   });
 }
