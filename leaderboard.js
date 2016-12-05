@@ -1,7 +1,6 @@
 PlayersList = new Mongo.Collection('players');
 
 if(Meteor.isClient){
-  console.log('Hello!');
   Template.leaderboard.helpers({
     'player': function(){
       return PlayersList.find({}, {sort:{score: -1, name: 1}});
@@ -12,6 +11,10 @@ if(Meteor.isClient){
       if(playerId === selectedPlayer){
        return 'selected';
       }
+    },
+    'selectedPlayer': function() {
+        var selectedPlayer = Session.get('selectedPlayer');
+        return PlayersList.findOne({_id: selectedPlayer});
     }
   })
   Template.leaderboard.events({
